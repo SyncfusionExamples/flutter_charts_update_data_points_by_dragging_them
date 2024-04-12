@@ -17,17 +17,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ChartSeriesController? _chartSeriesController;
-  late Offset position;
-  int? pointIndex;
   late final List<ChartData> chartData = <ChartData>[
-    ChartData(1, 24),
-    ChartData(2, 20),
+    ChartData(1, 14),
+    ChartData(2, 30),
     ChartData(3, 23),
-    ChartData(4, 57),
+    ChartData(4, 47),
     ChartData(5, 30),
     ChartData(6, 41),
   ];
+  int? pointIndex;
+  late Offset position;
+  ChartSeriesController? _chartSeriesController;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
         children: <Widget>[
           Expanded(
             child: SfCartesianChart(
-              onChartTouchInteractionUp: (tapArgs) {
+              onChartTouchInteractionMove: (tapArgs) {
                 if (pointIndex != null) {
                   CartesianChartPoint<dynamic> dragPoint =
                       _chartSeriesController!.pixelToPoint(tapArgs.position);
@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
                       .updateDataSource(updatedDataIndex: pointIndex!);
                 }
               },
-              onChartTouchInteractionMove: (tapArgs) {
+              onChartTouchInteractionUp: (tapArgs) {
                 if (pointIndex != null) {
                   CartesianChartPoint<dynamic> dragPoint =
                       _chartSeriesController!.pixelToPoint(tapArgs.position);
@@ -64,6 +64,7 @@ class _MyAppState extends State<MyApp> {
               },
               series: <CartesianSeries<ChartData, num>>[
                 LineSeries<ChartData, num>(
+                  markerSettings: const MarkerSettings(isVisible: true),
                   onPointLongPress: (pointInteractionDetails) {
                     pointIndex = pointInteractionDetails.pointIndex;
                   },
